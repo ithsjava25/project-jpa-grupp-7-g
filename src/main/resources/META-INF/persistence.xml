@@ -1,0 +1,24 @@
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             version="3.0">
+
+    <persistence-unit name="carRentalPU">
+        <class>org.example.Car</class>
+        <!-- Lägg till fler entiteter här om du har, t.ex. Customer, Rental osv. -->
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.url"
+                      value="jdbc:mysql://localhost:3306/carrental"/>
+            <property name="jakarta.persistence.jdbc.user"
+                      value="root"/>
+            <property name="jakarta.persistence.jdbc.password"
+                      value="abc-123-QWE"/>
+            <property name="jakarta.persistence.jdbc.driver"
+                      value="com.mysql.cj.jdbc.Driver"/>
+
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
+
