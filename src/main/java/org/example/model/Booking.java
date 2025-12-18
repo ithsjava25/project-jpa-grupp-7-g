@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 
 import javax.tools.DocumentationTool;
 import javax.xml.stream.Location;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Booking {
@@ -24,14 +26,33 @@ public class Booking {
     @JoinColumn(name = "pickup_location_id")
     private Location pickupLocation;
 
-
     @ManyToOne
-    @JoinColumn
-    private int days;
-    private double price;
-    private boolean paid;
-    private String status;
+    @JoinColumn(name = "dropoff_location_id")
+    private Location dropoffLocation;
 
+    @OneToMany
+    @JoinColumn(name = "booking_id")
+    private List<Extra> extras;
 
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    protected Booking() {
+        // JPA requires a no-arg constructor
+    }
+
+    public Booking(Customer customer, Car car, Location pickupLocation, Location dropoffLocation, LocalDate startDate, LocalDate endDate) {
+        this.customer = customer;
+        this.car = car;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = BookingStatus.RESERVED;
+        this.createdAt = LocalDateTime.now();
+
+    }
 
 }

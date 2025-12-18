@@ -1,9 +1,9 @@
-package org.example.model;
+package org.example;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
 public class Car {
@@ -14,6 +14,9 @@ public class Car {
     private String brand;
     private String model;
     private int year;
+    private String type;
+    private double price;
+    private double dailyPrice; // ny egenskap
 
     // Getters och setters
     public Long getId() { return id; }
@@ -26,5 +29,13 @@ public class Car {
 
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
-}
 
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+
+    public double getDailyPrice() { return dailyPrice; }
+    public void setDailyPrice(double dailyPrice) { this.dailyPrice = dailyPrice; }
+}
