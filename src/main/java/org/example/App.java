@@ -45,7 +45,10 @@ public class App {
 
     // Skapar bil och sätter dagspris till 0,5% av priset
     private static Car createCar(String brand, String model, int year, String type, double price) {
+
         Car car = new Car();
+
+
         car.setBrand(brand);
         car.setModel(model);
         car.setYear(year);
