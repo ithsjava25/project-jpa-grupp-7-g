@@ -1,10 +1,10 @@
 package org.example.repository;
 
 import org.example.model.Car;
-import org.example.util.JPAUtil;
 
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import org.example.util.JPAUtil;
 
 public class CarRepository {
 

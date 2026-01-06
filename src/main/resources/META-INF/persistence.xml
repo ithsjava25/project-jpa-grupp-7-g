@@ -2,7 +2,7 @@
              version="3.0">
 
     <persistence-unit name="carRentalPU">
-        <class>org.example.Car</class>
+        <class>org.example.model.Car</class>
         <!-- Lägg till fler entiteter här om du har, t.ex. Customer, Rental osv. -->
 
         <properties>

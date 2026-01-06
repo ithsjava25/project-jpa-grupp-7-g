@@ -1,11 +1,13 @@
 package org.example;
 
+import org.example.model.Car;               // ✅ Rätt import
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class App {
     public static void main(String[] args) {
+        // Skapa EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("carRentalPU");
         EntityManager em = emf.createEntityManager();
 
@@ -45,10 +47,7 @@ public class App {
 
     // Skapar bil och sätter dagspris till 0,5% av priset
     private static Car createCar(String brand, String model, int year, String type, double price) {
-
-        Car car = new Car();
-
-
+        Car car = new Car();          // ✅ korrekt syntax
         car.setBrand(brand);
         car.setModel(model);
         car.setYear(year);
