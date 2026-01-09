@@ -13,11 +13,18 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
-    private BookingType bookingType;
+    private BookingType type;
+
+    private double totalPrice;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String personalNumber;
 
     @ManyToOne
     private Car car;
@@ -25,28 +32,42 @@ public class Booking {
     @ManyToMany
     private List<Addon> addons = new ArrayList<>();
 
-    private double totalPrice;
+    @OneToOne(mappedBy = "booking")
+    private Payment payment;
 
     public Booking() {}
 
-    public Booking(LocalDateTime startTime, LocalDateTime endTime, BookingType bookingType, Car car) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.bookingType = bookingType;
+    public Booking(LocalDateTime startDate, LocalDateTime endDate, BookingType type, Car car,
+                   String firstName, String lastName, String email, String personalNumber) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.type = type;
         this.car = car;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.personalNumber = personalNumber;
     }
 
     public Long getId() { return id; }
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
-    public BookingType getBookingType() { return bookingType; }
-    public void setBookingType(BookingType bookingType) { this.bookingType = bookingType; }
-    public Car getCar() { return car; }
-    public void setCar(Car car) { this.car = car; }
-    public List<Addon> getAddons() { return addons; }
-    public void setAddons(List<Addon> addons) { this.addons = addons; }
+    public LocalDateTime getStartDate() { return startDate; }
+    public LocalDateTime getEndDate() { return endDate; }
+    public BookingType getType() { return type; }
     public double getTotalPrice() { return totalPrice; }
+    public Car getCar() { return car; }
+    public List<Addon> getAddons() { return addons; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getEmail() { return email; }
+    public String getPersonalNumber() { return personalNumber; }
+
+    public void setAddons(List<Addon> addons) { this.addons = addons; }
     public void setTotalPrice(double totalPrice) { this.totalPrice = totalPrice; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setEmail(String email) { this.email = email; }
+    public void setPersonalNumber(String personalNumber) { this.personalNumber = personalNumber; }
+
+    public Payment getPayment() { return payment; }
+    public void setPayment(Payment payment) { this.payment = payment; }
 }

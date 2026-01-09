@@ -2,15 +2,24 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.controller.MainController"
-            stylesheets="@../style.css">
+            stylesheets="@../css/style.css">
+
+    <top>
+        <VBox alignment="CENTER" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
+            <Label text="EVTA Rental" style="-fx-font-size: 36px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+        </VBox>
+    </top>
 
     <left>
-        <VBox spacing="10" styleClass="sidebar">
-            <Button text="Centralhubb" onAction="#showCentralHub"/>
-            <Button text="Skapa bokning" onAction="#showBookingView"/>
+        <VBox spacing="15" styleClass="sidebar" style="-fx-background-color: #34495e; -fx-padding: 20; -fx-min-width: 200;">
+            <Button text="Bilar att hyra" onAction="#showCentralHub" maxWidth="Infinity" styleClass="menu-button"/>
+            <Button text="Bokning" onAction="#showBookingView" maxWidth="Infinity" styleClass="menu-button"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="AI Chatt" onAction="#showChat" maxWidth="Infinity" styleClass="menu-button"/>
         </VBox>
     </left>
 

@@ -40,7 +40,9 @@ public class Car {
     public String getModel() { return model; }
     public String getRegistrationNumber() { return registrationNumber; }
     public double getPricePerHour() { return pricePerHour; }
+    public double getHourlyPrice() { return pricePerHour; }
     public double getPricePerDay() { return pricePerDay; }
+    public double getDailyPrice() { return pricePerDay; }
 
     @Override
     public String toString() {

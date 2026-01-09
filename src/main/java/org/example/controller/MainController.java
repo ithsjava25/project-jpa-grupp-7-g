@@ -25,11 +25,24 @@ public class MainController {
         load("/fxml/booking-view.fxml");
     }
 
+    @FXML
+    private void showChat() {
+        load("/fxml/chat-view.fxml");
+    }
+
     private void load(String path) {
         try {
-            Node node = FXMLLoader.load(getClass().getResource(path));
+            System.out.println("Loading FXML: " + path);
+            var resource = getClass().getResource(path);
+            if (resource == null) {
+                System.err.println("Could not find FXML file: " + path);
+                return;
+            }
+            Node node = FXMLLoader.load(resource);
             contentArea.getChildren().setAll(node);
+            System.out.println("Successfully loaded: " + path);
         } catch (Exception e) {
+            System.err.println("Error loading FXML: " + path);
             e.printStackTrace();
         }
     }

@@ -1,13 +1,11 @@
 package org.example.service;
 
-import org.example.entity.Booking;
-import org.example.repository.BookingRepository;
-import org.example.config.JpaUtil;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import org.example.entity.Addon;
+import org.example.entity.Booking;
 import org.example.entity.BookingType;
 import org.example.entity.Car;
+import org.example.repository.BookingRepository;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,73 +14,52 @@ public class BookingService {
 
     private final BookingRepository repo = new BookingRepository();
 
-    public List<Booking> getAllBookings() {
-        return repo.findAll();
-    }
-
-    public List<Booking> getBookingsForCar(Car car) {
-        EntityManager em = JpaUtil.getEntityManager();
-        return em.createQuery("SELECT b FROM Booking b WHERE b.car = :car ORDER BY b.startTime", Booking.class)
-                .setParameter("car", car)
-                .getResultList();
-    }
-
     public boolean isCarAvailable(Car car, LocalDateTime start, LocalDateTime end) {
-        List<Booking> bookings = getBookingsForCar(car);
-        for (Booking b : bookings) {
-            if (start.isBefore(b.getEndTime()) && end.isAfter(b.getStartTime())) {
-                return false;
-            }
-        }
-        return true;
+        return repo.isCarAvailable(car, start, end);
     }
 
-    public LocalDateTime getNextAvailableTime(Car car) {
-        List<Booking> bookings = getBookingsForCar(car);
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime latestEnd = now;
+    public double calculatePrice(Car car,
+                                 LocalDateTime start,
+                                 LocalDateTime end,
+                                 BookingType type,
+                                 List<Addon> addons) {
 
-        for (Booking b : bookings) {
-            if (b.getEndTime().isAfter(latestEnd)) {
-                if (b.getStartTime().isAfter(latestEnd)) {
-                    // There is a gap
-                    return latestEnd;
-                }
-                latestEnd = b.getEndTime();
-            }
-        }
-        return latestEnd;
-    }
-
-    public double calculatePrice(Car car, LocalDateTime start, LocalDateTime end, BookingType type, List<Addon> addons) {
-        Duration duration = Duration.between(start, end);
         double basePrice = 0;
+
         if (type == BookingType.HOURLY) {
-            basePrice = Math.ceil(duration.toMinutes() / 60.0) * car.getPricePerHour();
+            long hours = Duration.between(start, end).toHours();
+            if (hours <= 0) hours = 1; // Minimum 1 hour if same hour selected
+            basePrice = hours * car.getHourlyPrice();
         } else {
-            basePrice = Math.ceil(duration.toHours() / 24.0) * car.getPricePerDay();
+            long days = Duration.between(start, end).toDays();
+            if (days <= 0) days = 1;
+            basePrice = days * car.getDailyPrice();
         }
 
-        double addonPrice = addons.stream().mapToDouble(Addon::getPrice).sum();
+        double addonPrice = addons.stream()
+            .mapToDouble(Addon::getPrice)
+            .sum();
+
         return basePrice + addonPrice;
     }
 
     public void saveBooking(Booking booking) {
-        EntityManager em = JpaUtil.getEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            if (booking.getId() == null) {
-                em.persist(booking);
-            } else {
-                em.merge(booking);
-            }
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
-        } finally {
-            em.close();
+        repo.save(booking);
+    }
+
+    public LocalDateTime getNextAvailableTime(Car car) {
+        List<Booking> futureBookings = repo.findFutureBookingsByCar(car);
+        if (futureBookings.isEmpty()) {
+            return LocalDateTime.now();
         }
+
+        LocalDateTime nextAvailable = LocalDateTime.now();
+        for (Booking b : futureBookings) {
+            if (nextAvailable.isBefore(b.getStartDate())) {
+                return nextAvailable;
+            }
+            nextAvailable = b.getEndDate();
+        }
+        return nextAvailable;
     }
 }

@@ -47,16 +47,34 @@ public class CentralHubController {
         availabilityColumn.setCellValueFactory(cellData -> {
             Car car = cellData.getValue();
             boolean available = bookingService.isCarAvailable(car, LocalDateTime.now(), LocalDateTime.now().plusMinutes(1));
-            return new SimpleStringProperty(available ? "Tillgänglig" : "Bokad");
+            return new SimpleStringProperty(available ? "" : "Upptagen");
+        });
+
+        availabilityColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("Upptagen")) {
+                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            }
         });
 
         nextAvailableColumn.setCellValueFactory(cellData -> {
             Car car = cellData.getValue();
             LocalDateTime nextTime = bookingService.getNextAvailableTime(car);
             if (nextTime.isBefore(LocalDateTime.now()) || nextTime.isEqual(LocalDateTime.now())) {
-                return new SimpleStringProperty("Nu");
+                return new SimpleStringProperty("Tillgänglig nu");
             }
-            return new SimpleStringProperty(nextTime.format(formatter));
+            return new SimpleStringProperty("Tillgänglig " + nextTime.format(formatter));
         });
 
         carTable.getItems().setAll(carService.getAllCars());
