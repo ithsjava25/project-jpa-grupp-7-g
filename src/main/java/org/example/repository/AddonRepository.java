@@ -1,14 +1,14 @@
 package org.example.repository;
 
 import org.example.config.JpaUtil;
-import org.example.entity.Booking;
+import org.example.entity.Addon;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 
-public class BookingRepository {
+public class AddonRepository {
 
-    public List<Booking> findAll() {
+    public List<Addon> findAll() {
         EntityManager em = JpaUtil.getEntityManager();
-        return em.createQuery("SELECT b FROM Booking b", Booking.class).getResultList();
+        return em.createQuery("SELECT a FROM Addon a", Addon.class).getResultList();
     }
 }

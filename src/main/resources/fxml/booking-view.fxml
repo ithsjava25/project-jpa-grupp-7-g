@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.BookingController"
+      spacing="15" style="-fx-padding: 20;">
+
+    <Label text="Skapa bokning" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Välj bil:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <ComboBox fx:id="carComboBox" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Bokningstyp:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <RadioButton fx:id="hourlyRadio" text="Per timme"/>
+            <RadioButton fx:id="dailyRadio" text="Per dag"/>
+        </HBox>
+
+        <Label text="Starttid:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Sluttid:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <DatePicker fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Tilläggstjänster:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <VBox fx:id="addonsVBox" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </GridPane>
+
+    <Separator/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Beräknat pris:" style="-fx-font-weight: bold;"/>
+        <Label fx:id="priceLabel" text="0.00 kr"/>
+    </HBox>
+
+    <Button text="Bekräfta bokning" onAction="#handleBooking" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    <Label fx:id="statusLabel"/>
+
+</VBox>
