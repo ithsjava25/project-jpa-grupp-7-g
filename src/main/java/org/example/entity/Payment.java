@@ -12,7 +12,7 @@ public class Payment {
 
     private String firstName;
     private String lastName;
-    private String email;
+    private String email;// hej
     private String personalNumber;
 
     @OneToOne
