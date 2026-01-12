@@ -47,7 +47,7 @@ public class CentralHubController {
         availabilityColumn.setCellValueFactory(cellData -> {
             Car car = cellData.getValue();
             boolean available = bookingService.isCarAvailable(car, LocalDateTime.now(), LocalDateTime.now().plusMinutes(1));
-            return new SimpleStringProperty(available ? "" : "Upptagen");
+            return new SimpleStringProperty(available ? "Tillgänglig" : "Upptagen");
         });
 
         availabilityColumn.setCellFactory(column -> new TableCell<>() {
@@ -61,6 +61,8 @@ public class CentralHubController {
                     setText(item);
                     if (item.equals("Upptagen")) {
                         setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                    } else if (item.equals("Tillgänglig")) {
+                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
                     } else {
                         setStyle("");
                     }

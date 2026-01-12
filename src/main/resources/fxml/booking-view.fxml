@@ -51,10 +51,13 @@
                                 <DatePicker fx:id="endDatePicker"/>
                             </VBox>
                         </VBox>
+                        <Separator/>
+                        <Label text="5. Betalningsmetod" styleClass="section-title"/>
+                        <ComboBox fx:id="paymentMethodComboBox" prefWidth="300" promptText="Välj betalningsmetod"/>
                     </VBox>
 
                     <VBox spacing="18" styleClass="card" prefWidth="350">
-                        <Label text="5. Extra tillval" styleClass="section-title"/>
+                        <Label text="6. Extra tillval" styleClass="section-title"/>
                         <ScrollPane fitToWidth="true" prefHeight="200">
                             <content>
                                 <VBox fx:id="addonsVBox" spacing="8">

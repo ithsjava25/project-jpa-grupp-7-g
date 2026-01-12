@@ -1,13 +1,9 @@
 package org.example.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import org.example.entity.Addon;
-import org.example.entity.Booking;
-import org.example.entity.BookingType;
-import org.example.entity.Car;
+import org.example.entity.*;
 import org.example.service.AddonService;
 import org.example.service.BookingService;
 import org.example.service.CarService;
@@ -21,6 +17,7 @@ import java.util.List;
 public class BookingController {
 
     @FXML private ComboBox<Car> carComboBox;
+    @FXML private ComboBox<String> paymentMethodComboBox;
     @FXML private RadioButton hourlyRadio;
     @FXML private RadioButton dailyRadio;
     @FXML private DatePicker startDatePicker;
@@ -54,6 +51,8 @@ public class BookingController {
         System.out.println("[DEBUG_LOG] INIT START");
 
         carComboBox.getItems().setAll(carService.getAllCars());
+        paymentMethodComboBox.getItems().addAll("Faktura (30 dagar)", "Betala på plats");
+        paymentMethodComboBox.getSelectionModel().selectFirst();
 
         hourlyRadio.setToggleGroup(bookingTypeGroup);
         dailyRadio.setToggleGroup(bookingTypeGroup);
@@ -224,6 +223,9 @@ public class BookingController {
         booking.setAddons(addons);
         booking.setTotalPrice(price);
 
+        String selectedPaymentStr = paymentMethodComboBox.getValue();
+        PaymentMethod method = selectedPaymentStr.equals("Faktura (30 dagar)") ? PaymentMethod.INVOICE : PaymentMethod.CASH;
+
         try {
             bookingService.saveBooking(booking);
             paymentService.savePayment(
@@ -231,7 +233,8 @@ public class BookingController {
                 lastNameField.getText(),
                 emailField.getText(),
                 personalNumberField.getText(),
-                booking
+                booking,
+                method
             );
 
             System.out.println("[DEBUG_LOG] Booking and Payment saved. Sending email...");
@@ -240,7 +243,10 @@ public class BookingController {
             emailService.sendBookingConfirmation(
                 emailField.getText(),
                 firstNameField.getText(),
-                statusLabel
+                method,
+                price,
+                statusLabel,
+                booking.getId()
             );
 
         } catch (Exception e) {

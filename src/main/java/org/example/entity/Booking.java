@@ -19,6 +19,9 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingType type;
 
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status = BookingStatus.ACTIVE;
+
     private double totalPrice;
 
     private String firstName;
@@ -32,7 +35,8 @@ public class Booking {
     @ManyToMany
     private List<Addon> addons = new ArrayList<>();
 
-    @OneToOne(mappedBy = "booking")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id")
     private Payment payment;
 
     public Booking() {}
@@ -53,6 +57,7 @@ public class Booking {
     public LocalDateTime getStartDate() { return startDate; }
     public LocalDateTime getEndDate() { return endDate; }
     public BookingType getType() { return type; }
+    public BookingStatus getStatus() { return status; }
     public double getTotalPrice() { return totalPrice; }
     public Car getCar() { return car; }
     public List<Addon> getAddons() { return addons; }
@@ -67,6 +72,7 @@ public class Booking {
     public void setLastName(String lastName) { this.lastName = lastName; }
     public void setEmail(String email) { this.email = email; }
     public void setPersonalNumber(String personalNumber) { this.personalNumber = personalNumber; }
+    public void setStatus(BookingStatus status) { this.status = status; }
 
     public Payment getPayment() { return payment; }
     public void setPayment(Payment payment) { this.payment = payment; }

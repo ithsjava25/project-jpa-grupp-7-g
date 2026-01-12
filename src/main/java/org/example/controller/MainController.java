@@ -5,14 +5,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
+import org.example.service.BookingService;
+import org.example.service.EmailService;
+
 public class MainController {
 
     @FXML
     private StackPane contentArea;
 
+    private final EmailService emailService = new EmailService();
+    private final BookingService bookingService = new BookingService();
+
     @FXML
     public void initialize() {
         showCentralHub();
+        emailService.startEmailListener(bookingService);
     }
 
     @FXML
@@ -30,6 +37,11 @@ public class MainController {
         load("/fxml/chat-view.fxml");
     }
 
+    @FXML
+    private void showMyBookings() {
+        load("/fxml/my-bookings-view.fxml");
+    }
+
     private void load(String path) {
         try {
             System.out.println("Loading FXML: " + path);
@@ -38,7 +50,8 @@ public class MainController {
                 System.err.println("Could not find FXML file: " + path);
                 return;
             }
-            Node node = FXMLLoader.load(resource);
+            FXMLLoader loader = new FXMLLoader(resource);
+            Node node = loader.load();
             contentArea.getChildren().setAll(node);
             System.out.println("Successfully loaded: " + path);
         } catch (Exception e) {

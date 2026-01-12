@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.entity.Addon;
 import org.example.entity.Booking;
+import org.example.entity.BookingStatus;
 import org.example.entity.BookingType;
 import org.example.entity.Car;
 import org.example.repository.BookingRepository;
@@ -13,6 +14,7 @@ import java.util.List;
 public class BookingService {
 
     private final BookingRepository repo = new BookingRepository();
+    private final EmailService emailService = new EmailService();
 
     public boolean isCarAvailable(Car car, LocalDateTime start, LocalDateTime end) {
         return repo.isCarAvailable(car, start, end);
@@ -45,6 +47,40 @@ public class BookingService {
 
     public void saveBooking(Booking booking) {
         repo.save(booking);
+    }
+
+    public List<Booking> getAllBookings() {
+        return repo.findAll();
+    }
+
+    public String cancelBooking(Long bookingId) {
+        return cancelBooking(bookingId, false);
+    }
+
+    public String cancelBooking(Long bookingId, boolean force) {
+        Booking booking = repo.findById(bookingId);
+        if (booking == null) {
+            return "Bokningen hittades inte.";
+        }
+
+        if (booking.getStatus() == BookingStatus.CANCELLED) {
+            return "Bokningen är redan avbokad.";
+        }
+
+        if (!force) {
+            LocalDateTime now = LocalDateTime.now();
+            if (now.isAfter(booking.getStartDate().minusHours(24))) {
+                return "Bokningen kan endast avbokas senast 24 timmar innan upphämtning.";
+            }
+        }
+
+        booking.setStatus(BookingStatus.CANCELLED);
+        repo.save(booking);
+
+        // Skicka avbokningsmejl
+        emailService.sendCancellationEmail(booking.getEmail(), booking.getFirstName());
+
+        return "Bokningen har avbokats framgångsrikt.";
     }
 
     public LocalDateTime getNextAvailableTime(Car car) {

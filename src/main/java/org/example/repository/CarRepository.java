@@ -9,6 +9,10 @@ public class CarRepository {
 
     public List<Car> findAll() {
         EntityManager em = JpaUtil.getEntityManager();
-        return em.createQuery("SELECT c FROM Car c", Car.class).getResultList();
+        try {
+            return em.createQuery("SELECT c FROM Car c", Car.class).getResultList();
+        } finally {
+            em.close();
+        }
     }
 }

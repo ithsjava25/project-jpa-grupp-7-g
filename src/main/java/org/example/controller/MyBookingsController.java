@@ -68,7 +68,7 @@ public class MyBookingsController {
     }
 
     private void handleCancel(Booking booking) {
-        String result = bookingService.cancelBooking(booking.getId());
+        String result = bookingService.cancelBooking(booking.getId(), true);
         messageLabel.setText(result);
         if (result.contains("framgångsrikt")) {
             messageLabel.setStyle("-fx-text-fill: green;");
