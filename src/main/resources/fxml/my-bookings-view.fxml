@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.MyBookingsController"
+            prefWidth="900" prefHeight="650">
+
+    <VBox spacing="20" style="-fx-padding: 20;" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <Label text="Mina bokningar" styleClass="header-label"/>
+
+        <TableView fx:id="bookingTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="carColumn" text="Bil" prefWidth="150"/>
+                <TableColumn fx:id="startColumn" text="Startdatum" prefWidth="150"/>
+                <TableColumn fx:id="endColumn" text="Slutdatum" prefWidth="150"/>
+                <TableColumn fx:id="priceColumn" text="Pris" prefWidth="100"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+                <TableColumn fx:id="actionColumn" text="Åtgärd" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <Label fx:id="messageLabel" styleClass="status-label"/>
+    </VBox>
+
+</AnchorPane>
