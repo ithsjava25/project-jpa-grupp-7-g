@@ -1,12 +1,12 @@
 package org.example.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Car {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,28 +14,41 @@ public class Car {
     private String brand;
     private String model;
     private int year;
-    private String type;
-    private double price;
-    private double dailyPrice; // ny egenskap
 
-    // Getters och setters
+    @Enumerated(EnumType.STRING)
+    private CarType type;
+    private double dailyPrice;
+    private boolean available = true;
+    private boolean damaged = false;
+
+    public Car() {}
+    public Car(String brand, String model, int year, CarType type, double dailyPrice) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.type = type;
+        this.dailyPrice = dailyPrice;
+    }
+
+    // Getters som krävs för TableView (PropertyValueFactory)
     public Long getId() { return id; }
-
     public String getBrand() { return brand; }
-    public void setBrand(String brand) { this.brand = brand; }
-
     public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
-
     public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
-
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
-
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
-
+    public CarType getType() { return type; }
     public double getDailyPrice() { return dailyPrice; }
-    public void setDailyPrice(double dailyPrice) { this.dailyPrice = dailyPrice; }
+    public boolean isAvailable() { return available; }
+    public boolean isDamaged() { return damaged; }
+
+    // Setters
+    public void setAvailable(boolean available) { this.available = available; }
+    public void setDamaged(boolean damaged) { this.damaged = damaged; }
+
+    @Override
+    public String toString() {
+        return brand + " " + model + " (" + year + ") - " + dailyPrice + " kr/dag";
+    }
 }
+
+
+

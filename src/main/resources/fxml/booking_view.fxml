@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox spacing="30" styleClass="content-view" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.BookingController">
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Vänster sida: Formulär -->
+    <VBox spacing="20" HBox.hgrow="ALWAYS">
+        <Label text="Skapa ny bokning" styleClass="view-header"/>
+
+        <GridPane hgap="15" vgap="15">
+            <Label text="Välj bil:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="carComboBox" promptText="Välj en bil..." maxWidth="Infinity"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#updatePriceDisplay"/>
+
+            <Label text="Startdatum:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="startDatePicker" maxWidth="Infinity"
+                        GridPane.rowIndex="1" GridPane.columnIndex="1" onAction="#updatePriceDisplay"/>
+
+            <Label text="Slutdatum:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="endDatePicker" maxWidth="Infinity"
+                        GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#updatePriceDisplay"/>
+
+            <Label text="Kund (Email):" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="customerEmailField" promptText="E-postadress..."
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+
+        <Label text="Tillval" styleClass="section-header"/>
+        <VBox fx:id="extrasContainer" spacing="10" styleClass="extras-box">
+            <!-- Här kommer kryssrutor för extras laddas in dynamiskt -->
+        </VBox>
+    </VBox>
+
+    <!-- Höger sida: Sammanfattning -->
+    <VBox spacing="20" prefWidth="300" styleClass="summary-pane">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        <Label text="Sammanfattning" styleClass="summary-header"/>
+        <Separator/>
+
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Antal dagar: "/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="daysLabel" text="0" styleClass="bold-text"/>
+        </HBox>
+
+        <HBox alignment="CENTER_LEFT">
+            <Label text="Bil hyra: "/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="carPriceLabel" text="0 kr" styleClass="bold-text"/>
+        </HBox>
+
+        <Separator/>
+        <HBox alignment="CENTER_LEFT">
+            <Label text="TOTALT ATT BETALA" styleClass="total-label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="totalAmountLabel" text="0 kr" styleClass="total-price"/>
+        </HBox>
+
+        <Button text="BEKRÄFTA BOKNING" maxWidth="Infinity" styleClass="primary-button"
+                onAction="#onConfirmBooking" prefHeight="50"/>
+    </VBox>
+</HBox>

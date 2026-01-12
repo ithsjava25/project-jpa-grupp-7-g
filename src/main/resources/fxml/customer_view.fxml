@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.crm.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <Label text="Lägg till ny kund" styleClass="header-label"/>
+    <TextField fx:id="firstNameField" promptText="Förnamn"/>
+    <TextField fx:id="lastNameField" promptText="Efternamn"/>
+    <TextField fx:id="emailField" promptText="E-post"/>
+    <Button text="Lägg till kund" onAction="#handleAddCustomer" styleClass="primary-button"/>
+</VBox>

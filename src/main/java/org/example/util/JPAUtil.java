@@ -8,7 +8,17 @@ public class JPAUtil {
     private static final EntityManagerFactory emf =
         Persistence.createEntityManagerFactory("carRentalPU");
 
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return emf;
+    }
+
     public static EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public static void shutdown() {
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
     }
 }

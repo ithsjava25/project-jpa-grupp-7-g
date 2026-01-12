@@ -1,23 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-    <persistence-unit name="carRentalPU">
+    <persistence-unit name="carRentalPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Dina entiteter -->
         <class>org.example.model.Car</class>
-        <!-- Lägg till fler entiteter här om du har, t.ex. Customer, Rental osv. -->
+        <class>org.example.model.Customer</class>
+        <class>org.example.model.Booking</class>
+        <class>org.example.model.Extra</class>
+        <class>org.example.model.Location</class>
+        <class>org.example.model.Payment</class>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/carrental"/>
-            <property name="jakarta.persistence.jdbc.user"
-                      value="root"/>
-            <property name="jakarta.persistence.jdbc.password"
-                      value="abc-123-QWE"/>
-            <property name="jakarta.persistence.jdbc.driver"
-                      value="com.mysql.cj.jdbc.Driver"/>
+            <!-- Databaskonfiguration (ändra db_name, user och password till dina egna) -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/car_rental_db?createDatabaseIfNotExist=true"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- Hibernate inställningar -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
-
 </persistence>
