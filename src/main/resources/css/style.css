@@ -151,6 +151,10 @@
     -fx-alignment: CENTER_LEFT;
 }
 
+.scroll-pane {
+    -fx-background: #2c3e50;
+}
+
 .menu-button:hover {
     -fx-background-color: #3498db;
     -fx-text-fill: white;
