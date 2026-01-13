@@ -72,7 +72,7 @@ public class BookingController {
             updatePrice();
         });
 
-        updatePrice(); // Initial price update
+        updatePrice();
 
         List<Addon> addons = addonService.getAllAddons();
         for (Addon addon : addons) {
@@ -239,7 +239,6 @@ public class BookingController {
 
             System.out.println("[DEBUG_LOG] Booking and Payment saved. Sending email...");
 
-            // Skicka mejl i bakgrundstråd med statuslabel-feedback
             emailService.sendBookingConfirmation(
                 emailField.getText(),
                 firstNameField.getText(),

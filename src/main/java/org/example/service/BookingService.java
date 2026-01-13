@@ -30,7 +30,7 @@ public class BookingService {
 
         if (type == BookingType.HOURLY) {
             long hours = Duration.between(start, end).toHours();
-            if (hours <= 0) hours = 1; // Minimum 1 hour if same hour selected
+            if (hours <= 0) hours = 1;
             basePrice = hours * car.getHourlyPrice();
         } else {
             long days = Duration.between(start, end).toDays();
@@ -77,7 +77,6 @@ public class BookingService {
         booking.setStatus(BookingStatus.CANCELLED);
         repo.save(booking);
 
-        // Skicka avbokningsmejl
         emailService.sendCancellationEmail(booking.getEmail(), booking.getFirstName());
 
         return "Bokningen har avbokats framgångsrikt.";

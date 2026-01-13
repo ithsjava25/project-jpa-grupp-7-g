@@ -16,11 +16,8 @@ import java.util.Properties;
 public class EmailService {
 
     private final String from = "ericthilen@gmail.com";
-    private final String password = "honlndeywwkfdvri"; // App-lösenord utan mellanslag
+    private final String password = "honlndeywwkfdvri";
 
-    /**
-     * Startar en bakgrundstråd som lyssnar efter inkommande mejl (avbokningar).
-     */
     public void startEmailListener(BookingService bookingService) {
 
         if (isUsingPlaceholder()) {
@@ -38,7 +35,6 @@ public class EmailService {
                     props.put("mail.imaps.host", "imap.gmail.com");
                     props.put("mail.imaps.port", "993");
                     props.put("mail.imaps.ssl.enable", "true");
-                    // Lägg till timeout för att undvika hängande anslutningar
                     props.put("mail.imaps.timeout", "10000");
                     props.put("mail.imaps.connectiontimeout", "10000");
 
@@ -49,7 +45,7 @@ public class EmailService {
                         store.connect("imap.gmail.com", from, password);
                     } catch (AuthenticationFailedException e) {
                         System.err.println("[ERROR] Email listener: Autentisering misslyckades för " + from + ". Kontrollera applösenord.");
-                        Thread.sleep(60000); // Vänta längre vid auth-fel
+                        Thread.sleep(60000);
                         continue;
                     }
 
@@ -183,9 +179,6 @@ public class EmailService {
         }
     }
 
-    /**
-     * Skickar avbokningsmejl via e-post.
-     */
     public void sendCancellationEmail(String toEmail, String customerName) {
         if (isUsingPlaceholder()) {
             System.out.println("[DEBUG_LOG] Avbokningsmejl skickas inte i testläge.");
@@ -232,9 +225,6 @@ public class EmailService {
             password.equals("ditt-app-lösenord");
     }
 
-    /**
-     * Skickar bokningsbekräftelse via e-post.
-     */
     public void sendBookingConfirmation(String toEmail,
                                         String customerName,
                                         PaymentMethod method,
