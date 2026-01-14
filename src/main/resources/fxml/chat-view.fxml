@@ -14,7 +14,7 @@
     </ScrollPane>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Föreslagna frågor:"/>
+        <Label text="Allmäna frågor:"/>
         <FlowPane fx:id="questionsPane" hgap="10" vgap="10" HBox.hgrow="ALWAYS"/>
     </HBox>
 

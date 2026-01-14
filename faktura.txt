@@ -1,3 +1,7 @@
 FAKTURA - EVTA Rental
-Kund: torsten
-Att betala: 1100.0 kr
+Kund: eric
+Att betala: 600.0 kr
+Betala till:
+
+Bankgiro: 3492-232
+OCR: 0000000000

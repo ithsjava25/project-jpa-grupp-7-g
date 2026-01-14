@@ -10,26 +10,6 @@ import java.math.BigDecimal;
 
 public class PaymentService {
 
-    public void testCreatePayments() {
-
-        Payment payment1 = new Payment(new BigDecimal("5000.00"), 30, PaymentMethod.INVOICE);
-
-        Payment payment2 = new Payment(new BigDecimal("10000.00"), 90, PaymentMethod.INVOICE);
-
-        payment1.markAsPaid();
-
-        if (payment2.isOverdue()) {
-            System.out.println("Fakturan är försenad!");
-        }
-
-        long daysLeft = payment2.getDaysUntilDue();
-        System.out.println("Dagar kvar: " + daysLeft);
-    }
-
-    public Payment createPayment(BigDecimal amount, int days, PaymentMethod method) {
-        return new Payment(amount, days, method);
-    }
-
     public void payPayment(Payment payment) {
         payment.markAsPaid();
         System.out.println("Betalning på " + payment.getAmount() + " med metod " + payment.getMethod() + " är nu betald!");
