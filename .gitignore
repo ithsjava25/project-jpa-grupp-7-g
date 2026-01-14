@@ -1,2 +1,11 @@
+
 target/
-/.idea/
+
+.idea/
+*.iml
+
+
+*.log
+faktura.txt
+
+.env
