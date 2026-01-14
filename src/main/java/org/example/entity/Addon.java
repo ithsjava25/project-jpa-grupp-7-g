@@ -25,6 +25,11 @@ public class Addon {
         this.price = price;
     }
 
+    public Addon(String name, String description, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public Long getId() { return id; }
     public String getName() { return name; }
     public double getPrice() { return price; }
