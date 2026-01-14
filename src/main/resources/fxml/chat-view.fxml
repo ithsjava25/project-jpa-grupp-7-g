@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.ChatController"
+      spacing="15" style="-fx-padding: 20;">
+
+    <Label text="AI Chatt" styleClass="header-label"/>
+
+    <ScrollPane fx:id="chatScrollPane" fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+        <VBox fx:id="chatHistory" spacing="10"/>
+    </ScrollPane>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Allmäna frågor:"/>
+        <FlowPane fx:id="questionsPane" hgap="10" vgap="10" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+</VBox>

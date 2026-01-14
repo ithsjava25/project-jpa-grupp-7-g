@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.controller.CentralHubController"
+      spacing="10" style="-fx-padding: 10;">
+
+    <TableView fx:id="carTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="brandColumn" text="Märke"/>
+            <TableColumn fx:id="modelColumn" text="Modell"/>
+            <TableColumn fx:id="regColumn" text="Reg.nr"/>
+            <TableColumn fx:id="availabilityColumn" text="Status"/>
+            <TableColumn fx:id="nextAvailableColumn" text="Ledig från"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+
+</VBox>

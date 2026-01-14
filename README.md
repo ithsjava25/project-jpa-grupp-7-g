@@ -60,3 +60,56 @@ Many-to-Many: Uppgifter ↔ Användare
 One-to-Many: En restaurang → flera bord
 
 Many-to-Many: Gäster ↔ Bokningar
+
+
+---
+
+## MySQL i Docker för detta projekt
+
+Följ dessa steg för att köra MySQL lokalt i Docker och koppla upp applikationen.
+
+### 1) Starta MySQL 8 med Docker Compose
+
+Kräver Docker Desktop (eller docker + docker compose plugin).
+
+Kör i projektroten:
+```
+docker compose up -d
+```
+Det startar en MySQL 8-container med:
+- Databas: `car_rental`
+- Användare: `car_user`
+- Lösenord: `strong_password_here`
+- Port: `3306` (exponerad på localhost)
+
+### 2) JPA/Hibernate är konfigurerat för MySQL
+`src/main/resources/META-INF/persistence.xml` pekar nu på:
+```
+jdbc:mysql://localhost:3306/car_rental
+user=car_user, password=strong_password_here
+```
+Hibernate skapar/uppdaterar tabellerna vid start (`hibernate.hbm2ddl.auto=update`).
+
+### 3) Verifiera och fyll på data
+- Verifiera att containern är igång:
+```
+docker ps
+```
+- Logga in (om du har MySQL-klient):
+```
+mysql -h 127.0.0.1 -P 3306 -u car_user -p
+USE car_rental;
+SHOW TABLES;
+```
+- Lägg in seed-data (efter att applikationen skapat tabellerna) med filen `sql/seeds.sql`:
+```
+mysql -h 127.0.0.1 -P 3306 -u car_user -p car_rental < sql/seeds.sql
+```
+
+### 4) Starta applikationen
+- Bygg och kör som vanligt (t.ex. via IntelliJ eller Maven). Vid start kommer Hibernate att skapa tabellerna i MySQL.
+
+### 5) Felsökning
+- Port 3306 upptagen → stoppa annan MySQL eller ändra port i `docker-compose.yml` och i `persistence.xml`.
+- Access denied → kontrollera user/lösen i både compose och `persistence.xml`.
+- No suitable driver → kör `mvn clean package` och säkerställ att `mysql-connector-j` finns i `pom.xml`.
