@@ -2,11 +2,15 @@ package org.example.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.example.model.*;
-import org.example.service.*;
-import java.time.LocalDate;
+import javafx.scene.layout.VBox;
+import org.example.model.Car;
+import org.example.model.Extra;
+import org.example.util.JPAUtil;
+import jakarta.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class BookingController {
 
@@ -14,79 +18,122 @@ public class BookingController {
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
     @FXML private TextField customerEmailField;
+    @FXML private VBox extrasContainer;
     @FXML private Label daysLabel;
-    @FXML private Label totalAmountLabel;
     @FXML private Label carPriceLabel;
+    @FXML private Label totalAmountLabel;
 
-    private final BookingService bookingService = new BookingService();
-    private final CarService carService = new CarService();
-    private final CustomerService customerService = new CustomerService();
+    private List<CheckBox> extraCheckBoxes = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        // Ladda tillgängliga bilar i dropdownen
-        carComboBox.getItems().setAll(carService.getAvailableCars());
+        loadExtras();
+        loadAvailableCars(); // <--- Anropa den nya metoden här
+    }
 
-        // Sätt dagens datum som default startdatum
-        startDatePicker.setValue(LocalDate.now());
-        endDatePicker.setValue(LocalDate.now().plusDays(1));
+    private void loadAvailableCars() {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            // Hämtar alla bilar som är markerade som tillgängliga
+            List<Car> availableCars = em.createQuery("SELECT c FROM Car c WHERE c.available = true", Car.class).getResultList();
+            carComboBox.getItems().setAll(availableCars);
+        } finally {
+            em.close();
+        }
+    }
 
-        updatePriceDisplay();
+    private void loadExtras() {
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            List<Extra> allExtras = em.createQuery("SELECT e FROM Extra e", Extra.class).getResultList();
+
+            extrasContainer.getChildren().clear();
+            extraCheckBoxes.clear();
+
+            for (Extra extra : allExtras) {
+                CheckBox cb = new CheckBox(extra.getName() + " (" + extra.getPrice() + " kr)");
+                cb.setUserData(extra);
+                cb.setOnAction(e -> updatePriceDisplay()); // Uppdatera totalpris när man klickar
+                extraCheckBoxes.add(cb);
+                extrasContainer.getChildren().add(cb);
+            }
+        } finally {
+            em.close();
+        }
     }
 
     @FXML
     public void updatePriceDisplay() {
-        Car selectedCar = carComboBox.getValue();
+        Car selectedCar = carComboBox.getSelectionModel().getSelectedItem();
         LocalDate start = startDatePicker.getValue();
         LocalDate end = endDatePicker.getValue();
 
-        if (selectedCar != null && start != null && end != null) {
-            Booking tempBooking = new Booking(null, selectedCar, start, end);
-            long days = tempBooking.getDurationInDays();
-            double total = bookingService.calculateTotalPrice(tempBooking);
+        long days = 0;
+        double carTotal = 0;
+        double extrasTotal = 0;
 
-            daysLabel.setText(String.valueOf(days));
-            carPriceLabel.setText(String.format("%.2f kr", selectedCar.getDailyPrice() * days));
-            totalAmountLabel.setText(String.format("%.2f kr", total));
+        // 1. Räkna ut antal dagar
+        if (start != null && end != null && !end.isBefore(start)) {
+            days = ChronoUnit.DAYS.between(start, end);
+            if (days == 0) days = 1; // Räkna påbörjad dag som 1 dag
         }
+
+        // 2. Räkna ut bilens pris
+        if (selectedCar != null) {
+            carTotal = selectedCar.getDailyPrice() * days;
+        }
+
+        // 3. Räkna ut tilläggens pris
+        extrasTotal = extraCheckBoxes.stream()
+                .filter(CheckBox::isSelected)
+                .mapToDouble(cb -> ((Extra) cb.getUserData()).getPrice())
+                .sum();
+
+        // 4. Uppdatera labels i UI
+        daysLabel.setText(String.valueOf(days));
+        carPriceLabel.setText(String.format("%.2f kr", carTotal));
+
+        double total = carTotal + extrasTotal;
+        totalAmountLabel.setText(String.format("%.2f kr", total));
     }
 
     @FXML
     public void onConfirmBooking() {
-        Car car = carComboBox.getValue();
-        String email = customerEmailField.getText();
-
-        if (car == null || email.isEmpty()) {
-            showError("Vänligen fyll i alla uppgifter.");
+        // Kontrollera att allt är ifyllt
+        if (carComboBox.getValue() == null || startDatePicker.getValue() == null || customerEmailField.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Vänligen fyll i alla uppgifter!");
+            alert.show();
             return;
         }
 
-        // Hämta eller skapa kund
-        Customer customer = customerService.findCustomerByEmail(email)
-                .orElse(new Customer("Okänd", "Kund", email));
+        // HÄR SKER SJÄLVA SPARANDET I DATABASEN (Logik läggs till i BookingService sen)
 
-        if (customer.getId() == null) customerService.saveCustomer(customer);
-
-        Booking booking = new Booking(customer, car, startDatePicker.getValue(), endDatePicker.getValue());
-
-        try {
-            bookingService.createBooking(booking);
-            showInfo("Bokning bekräftad!", "Bilen är nu reserverad.");
-        } catch (Exception e) {
-            showError("Kunde inte skapa bokning: " + e.getMessage());
-        }
-    }
-
-    private void showInfo(String title, String content) {
+        // Tack-meddelande
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setContentText(content);
+        alert.setTitle("Bokning Bekräftad");
+        alert.setHeaderText("Tack för din bokning!");
+        alert.setContentText("Din bil är nu reserverad. Välkommen att hämta den på valt startdatum.");
+
         alert.showAndWait();
+
+        // Rensa formuläret eller hoppa tillbaka till huvudvyn
+        clearForm();
     }
 
-    private void showError(String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(content);
-        alert.showAndWait();
+    private void clearForm() {
+        carComboBox.getSelectionModel().clearSelection();
+        startDatePicker.setValue(null);
+        endDatePicker.setValue(null);
+        customerEmailField.clear();
+        extraCheckBoxes.forEach(cb -> cb.setSelected(false));
+        updatePriceDisplay();
+    }
+
+    public void setSelectedCar(Car car) {
+        if (carComboBox != null && car != null) {
+            carComboBox.getSelectionModel().select(car);
+            updatePriceDisplay();
+        }
     }
 }

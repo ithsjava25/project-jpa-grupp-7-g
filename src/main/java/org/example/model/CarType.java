@@ -4,5 +4,6 @@ public enum CarType {
     SMALL,
     FAMILY,
     VAN,
-    SPORT
+    SPORT,
+    LUXURY
 }

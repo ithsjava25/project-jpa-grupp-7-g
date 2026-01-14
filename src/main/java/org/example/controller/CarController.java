@@ -2,13 +2,16 @@ package org.example.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.beans.property.SimpleStringProperty;
 import org.example.model.Car;
 import org.example.model.CarType;
 import org.example.service.CarService;
+import java.io.IOException;
 
 public class CarController {
 
@@ -54,8 +57,23 @@ public class CarController {
     public void handleBookingAction() {
         Car selectedCar = carTable.getSelectionModel().getSelectedItem();
         if (selectedCar != null && selectedCar.isAvailable() && !selectedCar.isDamaged()) {
-            System.out.println("Bokning påbörjad för: " + selectedCar.getBrand() + " " + selectedCar.getModel());
-            // Här kan man senare lägga till logik för att automatiskt hoppa till bokningsvyn
+            try {
+                // 1. Ladda bokningsvyn
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/booking_view.fxml"));
+                Parent bookingView = loader.load();
+
+                // 2. Skicka med den valda bilen till BookingController (valfritt men bra!)
+                BookingController bookingController = loader.getController();
+                bookingController.setSelectedCar(selectedCar);
+
+                // 3. Hitta contentArea och byt ut innehållet
+                StackPane contentArea = (StackPane) carTable.getScene().lookup("#contentArea");
+                if (contentArea != null) {
+                    contentArea.getChildren().setAll(bookingView);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

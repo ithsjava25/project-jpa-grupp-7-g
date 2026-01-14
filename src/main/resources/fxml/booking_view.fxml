@@ -33,7 +33,7 @@
         </GridPane>
 
         <Label text="Tillval" styleClass="section-header"/>
-        <VBox fx:id="extrasContainer" spacing="10" styleClass="extras-box">
+        <VBox fx:id="extrasContainer" spacing="10">
             <!-- Här kommer kryssrutor för extras laddas in dynamiskt -->
         </VBox>
     </VBox>

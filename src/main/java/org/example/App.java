@@ -19,10 +19,10 @@ public class App extends Application {
 
             // 2. Ladda gränssnittet
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/fxml/main_view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
 
             // Koppla på CSS för "Hertz-looken"
-            scene.getStylesheets().add(App.class.getResource("/css/main.css").toExternalForm());
+           // scene.getStylesheets().add(App.class.getResource("/css/main.css").toExternalForm());
 
             stage.setTitle("Hertz Biluthyrning - Grupp 7");
             stage.setScene(scene);
