@@ -1,15 +1,9 @@
-/* ============================================
-   GLOBAL APP STYLE — HERTZ INSPIRED
-   ============================================ */
 .root {
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 15px;
     -fx-background-color: #f7f7f7;
 }
 
-/* ============================================
-   HEADERS
-   ============================================ */
 .header-label {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
@@ -17,9 +11,6 @@
     -fx-padding: 0 0 25 0;
 }
 
-/* ============================================
-   PRIMARY BUTTONS — HERTZ YELLOW
-   ============================================ */
 .button {
     -fx-background-color: #ffcc00;
     -fx-text-fill: #1a1a1a;
@@ -38,9 +29,6 @@
     -fx-background-color: #e6b800;
 }
 
-/* ============================================
-   SECONDARY BUTTONS (Sidebar)
-   ============================================ */
 .sidebar .button {
     -fx-background-color: transparent;
     -fx-text-fill: #e0e0e0;
@@ -55,9 +43,6 @@
     -fx-text-fill: white;
 }
 
-/* ============================================
-   SIDEBAR
-   ============================================ */
 .sidebar {
     -fx-background-color: #1a1a1a;
     -fx-padding: 30;
@@ -65,9 +50,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 0);
 }
 
-/* ============================================
-   FORM INPUTS
-   ============================================ */
 .text-field, .date-picker, .combo-box {
     -fx-background-color: white;
     -fx-background-radius: 8;
@@ -81,9 +63,6 @@
     -fx-effect: dropshadow(gaussian, rgba(255,204,0,0.35), 8, 0, 0, 0);
 }
 
-/* ============================================
-   SECTION CARDS (Booking, Car Info, etc.)
-   ============================================ */
 .card {
     -fx-background-color: white;
     -fx-background-radius: 14;
@@ -100,9 +79,6 @@
     -fx-text-fill: #333;
 }
 
-/* ============================================
-   TABLE VIEW — PREMIUM LOOK
-   ============================================ */
 .table-view {
     -fx-background-color: white;
     -fx-background-radius: 12;
@@ -112,7 +88,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
 }
 
-/* Table header */
+
 .table-view .column-header {
     -fx-background-color: #fafafa;
     -fx-padding: 12;
@@ -121,20 +97,17 @@
     -fx-border-color: #e6e6e6;
 }
 
-/* Default row */
 .table-row-cell {
     -fx-padding: 10 14;
     -fx-background-color: white;
     -fx-font-size: 15px;
 }
 
-/* Hover row */
 .table-row-cell:hover {
     -fx-background-color: #fff7d6;
     -fx-cursor: hand;
 }
 
-/* Selected row — VERY CLEAR */
 .table-row-cell:selected {
     -fx-background-color: #ffcc00 !important;
     -fx-text-fill: #1a1a1a;
@@ -146,14 +119,10 @@
     -fx-fill: #1a1a1a;
 }
 
-/* Zebra striping */
 .table-row-cell:odd {
     -fx-background-color: #fafafa;
 }
 
-/* ============================================
-   SUMMARY BOX (Booking Summary)
-   ============================================ */
 .summary-box {
     -fx-background-color: #fff9d9;
     -fx-background-radius: 12;
@@ -168,9 +137,6 @@
     -fx-text-fill: #b58900;
 }
 
-/* ============================================
-   ERROR LABELS
-   ============================================ */
 .error-label {
     -fx-text-fill: #d32f2f;
     -fx-font-weight: bold;
@@ -183,6 +149,10 @@
     -fx-padding: 12 20;
     -fx-background-radius: 6;
     -fx-alignment: CENTER_LEFT;
+}
+
+.scroll-pane {
+    -fx-background: #2c3e50;
 }
 
 .menu-button:hover {

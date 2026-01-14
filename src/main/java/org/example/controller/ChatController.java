@@ -21,11 +21,11 @@ public class ChatController {
 
     @FXML
     public void initialize() {
-        addQuestion("vilka är vi?", "vi är ett biluthyrningsföretag där man kan hyra våra bilar som har kontor i Göteborg.");
-        addQuestion("vilka bilar erbjuder vi?", getCarsResponse());
-        addQuestion("vad har vi för tillägg?", "vi har takbox, barnstol & försäkring");
-        addQuestion("vad kostar det att hyra en bil?", "priserna varierar men vi har ett pris från 80 kronor / timme");
-        addQuestion("Hur bokar jag?", "Du klickar på 'Bokning' i menyn till vänster!");
+        addQuestion("Vilka är vi?", "Vi är ett biluthyrningsföretag där man kan hyra våra bilar som har utgångspunkt i Göteborg.");
+        addQuestion("Vilka bilar erbjuder vi?", getCarsResponse());
+        addQuestion("Vad har vi för tillägg?", "Vi har takbox, barnstol & försäkring");
+        addQuestion("Vad kostar det att hyra en bil?", "Priserna varierar men vi har ett pris från 80 kronor / timme");
+        addQuestion("Hur bokar jag?", "Du klickar på 'Boka bil' i menyn till vänster!");
     }
 
     private void addQuestion(String question, String answer) {

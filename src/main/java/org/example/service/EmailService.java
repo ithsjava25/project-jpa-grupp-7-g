@@ -8,6 +8,7 @@ import jakarta.mail.internet.MimeMultipart;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import org.example.entity.PaymentMethod;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -15,12 +16,25 @@ import java.util.Properties;
 
 public class EmailService {
 
-    private final String from = "ericthilen@gmail.com";
-    private final String password = "honlndeywwkfdvri"; // App-lösenord utan mellanslag
+    private final Dotenv dotenv = Dotenv.load();
+    private final String from = dotenv.get("EMAIL_USER");
+    private final String password = dotenv.get("EMAIL_PASSWORD");
 
-    /**
-     * Startar en bakgrundstråd som lyssnar efter inkommande mejl (avbokningar).
-     */
+    private Session createSmtpSession() {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        return Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, password);
+            }
+        });
+    }
+
     public void startEmailListener(BookingService bookingService) {
 
         if (isUsingPlaceholder()) {
@@ -38,7 +52,6 @@ public class EmailService {
                     props.put("mail.imaps.host", "imap.gmail.com");
                     props.put("mail.imaps.port", "993");
                     props.put("mail.imaps.ssl.enable", "true");
-                    // Lägg till timeout för att undvika hängande anslutningar
                     props.put("mail.imaps.timeout", "10000");
                     props.put("mail.imaps.connectiontimeout", "10000");
 
@@ -49,7 +62,7 @@ public class EmailService {
                         store.connect("imap.gmail.com", from, password);
                     } catch (AuthenticationFailedException e) {
                         System.err.println("[ERROR] Email listener: Autentisering misslyckades för " + from + ". Kontrollera applösenord.");
-                        Thread.sleep(60000); // Vänta längre vid auth-fel
+                        Thread.sleep(60000);
                         continue;
                     }
 
@@ -106,24 +119,7 @@ public class EmailService {
                 Long bookingId = Long.parseLong(bookingIdStr);
 
                 String result = bookingService.cancelBooking(bookingId);
-
-                Properties props = new Properties();
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "587");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-
-                Session replySession = Session.getInstance(
-                    props,
-                    new Authenticator() {
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(from, password);
-                        }
-                    }
-                );
-
-                sendAutoReply(fromEmail, result, bookingId, replySession);
+                sendAutoReply(fromEmail, result, bookingId, createSmtpSession());
             }
 
         } catch (Exception e) {
@@ -183,30 +179,14 @@ public class EmailService {
         }
     }
 
-    /**
-     * Skickar avbokningsmejl via e-post.
-     */
     public void sendCancellationEmail(String toEmail, String customerName) {
         if (isUsingPlaceholder()) {
             System.out.println("[DEBUG_LOG] Avbokningsmejl skickas inte i testläge.");
             return;
         }
         new Thread(() -> {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-
-            Session session = Session.getInstance(props, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(from, password);
-                }
-            });
-
             try {
-                Message message = new MimeMessage(session);
+                Message message = new MimeMessage(createSmtpSession());
                 message.setFrom(new InternetAddress(from));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
                 message.setSubject("EVTA Rental - Avbokning");
@@ -232,9 +212,6 @@ public class EmailService {
             password.equals("ditt-app-lösenord");
     }
 
-    /**
-     * Skickar bokningsbekräftelse via e-post.
-     */
     public void sendBookingConfirmation(String toEmail,
                                         String customerName,
                                         PaymentMethod method,
@@ -252,24 +229,8 @@ public class EmailService {
         }
 
         new Thread(() -> {
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-
-            Session session = Session.getInstance(
-                props,
-                new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from, password);
-                    }
-                }
-            );
-
             try {
-                Message message = new MimeMessage(session);
+                Message message = new MimeMessage(createSmtpSession());
                 message.setFrom(new InternetAddress(from));
                 message.setRecipients(
                     Message.RecipientType.TO,
@@ -295,6 +256,10 @@ public class EmailService {
                         writer.println("FAKTURA - EVTA Rental");
                         writer.println("Kund: " + customerName);
                         writer.println("Att betala: " + totalPrice + " kr");
+                        writer.println("Betala till:");
+                        writer.println();
+                        writer.println("Bankgiro: 3492-232");
+                        writer.println("OCR: 0000000000");
                     }
 
                     MimeBodyPart attachment = new MimeBodyPart();
