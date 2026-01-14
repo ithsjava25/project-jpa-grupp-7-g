@@ -1,58 +1,52 @@
 package org.example.model;
 
 import jakarta.persistence.*;
-
-
-import javax.tools.DocumentationTool;
-import javax.xml.stream.Location;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id")
-    Customer customer;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "car_id")
+    @ManyToOne
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "pickup_location_id")
-    private Location pickupLocation;
+    private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "dropoff_location_id")
-    private Location dropoffLocation;
+    @ManyToMany
+    private List<Extra> extras = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "booking_id")
-    private List<Extra> extras;
-
-    @OneToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
-
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    protected Booking() {
-        // JPA requires a no-arg constructor
-    }
-
-    public Booking(Customer customer, Car car, Location pickupLocation, Location dropoffLocation, LocalDate startDate, LocalDate endDate) {
+    public Booking(Customer customer, Car car, LocalDate startDate, LocalDate endDate) {
         this.customer = customer;
         this.car = car;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = BookingStatus.RESERVED;
-        this.createdAt = LocalDateTime.now();
-
     }
 
+    public void addExtra(Extra extra) {
+        this.extras.add(extra);
+    }
+
+    public long getDurationInDays() {
+        if (startDate == null || endDate == null) return 0;
+        return java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
+    }
+
+    // Getters och Setters
+    public Long getId() { return id; }
+    public Customer getCustomer() { return customer; }
+    public Car getCar() { return car; }
+    public LocalDate getStartDate() { return startDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public List<Extra> getExtras() { return extras; }
+    public void setStatus(BookingStatus status) { this.status = status; }
 }

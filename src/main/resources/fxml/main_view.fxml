@@ -2,9 +2,41 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Region?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml">
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.controller.MainViewController"
+            prefHeight="700.0" prefWidth="1000.0" styleClass="main-container">
+
+    <!-- Sidebar / Navigation -->
+    <left>
+        <VBox spacing="15" styleClass="sidebar" prefWidth="220">
+            <padding>
+                <Insets top="40" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="ELITE RENT" styleClass="logo-text">
+                <font><Font name="System Bold" size="24.0"/></font>
+            </Label>
+            <Separator styleClass="nav-separator"/>
+
+            <Button text="🚗 Bilar" onAction="#showCarView" styleClass="nav-button" maxWidth="Infinity"/>
+            <Button text="📅 Bokningar" onAction="#showBookingView" styleClass="nav-button" maxWidth="Infinity"/>
+            <Button text="👤 Kunder" onAction="#showCustomerView" styleClass="nav-button" maxWidth="Infinity"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label text="Inloggad som Admin" styleClass="user-label"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
     <center>
-        <Label text="Car Rental System" />
+        <StackPane fx:id="contentArea" styleClass="content-pane">
+            <VBox alignment="CENTER" spacing="20">
+                <Label text="Välkommen till Elite Rent" styleClass="welcome-header"/>
+                <Label text="Välj en kategori i menyn för att börja hantera din vagnpark." styleClass="welcome-subtext"/>
+            </VBox>
+        </StackPane>
     </center>
 </BorderPane>
