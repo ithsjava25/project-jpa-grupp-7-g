@@ -8,9 +8,14 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <class>org.example.entity.Car</class>
+        <class>org.example.entity.Booking</class>
+        <class>org.example.entity.Addon</class>
+        <class>org.example.entity.Payment</class>
+
         <properties>
             <!-- JDBC connection -->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/car_rental"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/car_rental?createDatabaseIfNotExist=true"/>
             <property name="jakarta.persistence.jdbc.user" value="car_user"/>
             <property name="jakarta.persistence.jdbc.password" value="strong_password_here"/>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -19,7 +24,7 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="jakarta.persistence.sql-load-script-source" value="sql/seeds.sql"/>
             <property name="hibernate.hbm2ddl.import_files_sql_extractor" value="org.hibernate.tool.schema.internal.script.MultiLineSqlScriptExtractor"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>
