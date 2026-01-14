@@ -1,3 +1,4 @@
+
 USE car_rental;
 
 INSERT INTO cars (brand, model, registrationNumber, pricePerHour, pricePerDay) VALUES

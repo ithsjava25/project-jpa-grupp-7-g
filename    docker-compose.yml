@@ -12,4 +12,3 @@ services:
       MYSQL_PASSWORD: strong_password_here
     ports:
       - "3306:3306"
-    command: --default-authentication-plugin=mysql_native_password
