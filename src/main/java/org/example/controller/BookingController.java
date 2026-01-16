@@ -1,5 +1,7 @@
 package org.example.controller;
 
+// BookingController - Handles booking-related UI interactions
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

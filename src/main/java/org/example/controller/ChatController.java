@@ -1,5 +1,7 @@
 package org.example.controller;
 
+// ChatController - Controller for chat window
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

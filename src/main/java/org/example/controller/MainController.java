@@ -1,5 +1,7 @@
 package org.example.controller;
 
+// MainController - Controller for the main window
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
