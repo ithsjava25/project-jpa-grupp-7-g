@@ -1,7 +1,5 @@
 package org.example.service;
 
-// PaymentService - Service class for Payment entity
-
 import jakarta.persistence.EntityManager;
 import org.example.config.JpaUtil;
 import org.example.entity.Booking;
