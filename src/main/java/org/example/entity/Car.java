@@ -1,5 +1,7 @@
 package org.example.entity;
 
+// Cars - OneToMany
+
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

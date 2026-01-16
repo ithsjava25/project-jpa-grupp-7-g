@@ -1,6 +1,8 @@
 
 package org.example.entity;
 
+// Payments - OneToOne
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

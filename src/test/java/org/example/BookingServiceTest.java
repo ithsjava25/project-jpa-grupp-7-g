@@ -25,7 +25,6 @@ class BookingServiceTest {
 
         double price = bookingService.calculatePrice(car, start, end, BookingType.HOURLY, addons);
 
-        // 2 timmar * 500 kr/timme = 1000 kr
         assertThat(price).isEqualTo(1000);
     }
 
@@ -38,7 +37,6 @@ class BookingServiceTest {
 
         double price = bookingService.calculatePrice(car, start, end, BookingType.DAILY, addons);
 
-        // 2 dagar * 2000 kr/dag = 4000 kr
         assertThat(price).isEqualTo(4000);
     }
 
@@ -54,7 +52,6 @@ class BookingServiceTest {
 
         double price = bookingService.calculatePrice(car, start, end, BookingType.HOURLY, addons);
 
-        // (2 timmar * 500 kr/timme) + 100 kr addon = 1100 kr
         assertThat(price).isEqualTo(1100);
     }
 
@@ -67,7 +64,6 @@ class BookingServiceTest {
 
         double price = bookingService.calculatePrice(car, start, end, BookingType.HOURLY, addons);
 
-        // Minimum 1 timme även om mindre än 1 timme valts
         assertThat(price).isEqualTo(500);
     }
 }

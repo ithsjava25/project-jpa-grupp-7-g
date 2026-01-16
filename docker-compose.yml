@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   mysql:
     image: mysql:8
@@ -13,4 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./src/main/resources/sql/seeds.sql:/docker-entrypoint-initdb.d/seeds.sql
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

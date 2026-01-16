@@ -1,5 +1,7 @@
 package org.example.entity;
 
+// Addons - ManyToMany
+
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class Addon {
 
     public Addon() {}
 
-    public Addon(String name, double price) {
+    public Addon(String name, String description, double price) {
         this.name = name;
         this.price = price;
     }

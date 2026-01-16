@@ -1,5 +1,7 @@
 package org.example.repository;
 
+// AddonRepository - CRUD operations for Addon entity
+
 import org.example.config.JpaUtil;
 import org.example.entity.Addon;
 import jakarta.persistence.EntityManager;
