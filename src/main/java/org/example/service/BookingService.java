@@ -11,8 +11,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// BookingService - Service class for Booking entity
-
 public class BookingService {
 
     private final BookingRepository repo = new BookingRepository();
