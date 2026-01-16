@@ -1,7 +1,5 @@
 package org.example.repository;
 
-// CarRepository - CRUD operations for Car entity
-
 import org.example.config.JpaUtil;
 import org.example.entity.Car;
 import jakarta.persistence.EntityManager;
