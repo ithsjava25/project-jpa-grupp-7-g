@@ -1,10 +1,11 @@
 package org.example.service;
 
+// PaymentService - Service class for Payment entity
+
 import jakarta.persistence.EntityManager;
 import org.example.config.JpaUtil;
 import org.example.entity.Booking;
 import org.example.entity.Payment;
-import org.example.entity.PaymentStatus;
 import org.example.entity.PaymentMethod;
 import java.math.BigDecimal;
 

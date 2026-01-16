@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Properties;
 
+// EmailService - Service class for sending emails
+
 public class EmailService {
 
     private final Dotenv dotenv = Dotenv.load();
