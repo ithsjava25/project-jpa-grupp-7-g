@@ -1,7 +1,5 @@
 package org.example.controller;
 
-// MyBookingsController - Controller for the "My Bookings" window
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
