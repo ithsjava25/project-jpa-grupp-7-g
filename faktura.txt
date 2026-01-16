@@ -1,6 +1,6 @@
 FAKTURA - EVTA Rental
 Kund: eric
-Att betala: 990.0 kr
+Att betala: 1100.0 kr
 Betala till:
 
 Bankgiro: 3492-232
