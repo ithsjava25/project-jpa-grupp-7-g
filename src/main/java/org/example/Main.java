@@ -1,7 +1,5 @@
 package org.example;
 
-// Main class for launching the JavaFX application
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
