@@ -1,7 +1,5 @@
 package org.example.service;
 
-// AddonService - Service class for Addon entity
-
 import org.example.entity.Addon;
 import org.example.repository.AddonRepository;
 import java.util.List;
