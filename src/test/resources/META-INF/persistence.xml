@@ -4,7 +4,7 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-    <persistence-unit name="car_rental_pu" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="car_rental_test_pu" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.example.entity.Car</class>
         <class>org.example.entity.Booking</class>

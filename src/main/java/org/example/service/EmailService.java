@@ -16,9 +16,9 @@ import java.util.Properties;
 
 public class EmailService {
 
-    private final Dotenv dotenv = Dotenv.load();
-    private final String from = dotenv.get("EMAIL_USER");
-    private final String password = dotenv.get("EMAIL_PASSWORD");
+    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+    private final String from = dotenv.get("EMAIL_USER", "placeholder@example.com");
+    private final String password = dotenv.get("EMAIL_PASSWORD", "password");
 
     private Session createSmtpSession() {
         Properties props = new Properties();
@@ -208,7 +208,9 @@ public class EmailService {
     }
 
     public boolean isUsingPlaceholder() {
-        return from.contains("dinadress") ||
+        return from.contains("placeholder@example.com") ||
+            password.equals("password") ||
+            from.contains("dinadress") ||
             password.equals("ditt-app-lösenord");
     }
 
