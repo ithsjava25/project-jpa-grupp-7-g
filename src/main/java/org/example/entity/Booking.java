@@ -1,7 +1,5 @@
 package org.example.entity;
 
-// Booking - ManyToOne (Car), ManyToMany (Addons), OneToOne (Payment)
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
