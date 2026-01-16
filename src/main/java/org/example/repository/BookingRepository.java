@@ -1,7 +1,5 @@
 package org.example.repository;
 
-// BookingRepository - CRUD operations for Booking entity
-
 import org.example.config.JpaUtil;
 import org.example.entity.Booking;
 import jakarta.persistence.EntityManager;
