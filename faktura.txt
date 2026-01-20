@@ -3,5 +3,5 @@ Kund: eric
 Att betala: 1100.0 kr
 Betala till:
 
-Bankgiro: 3492-232
+Bankgiro: 3493-232
 OCR: 0000000000
